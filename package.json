@@ -4,7 +4,7 @@
   "description": "Node.js/express js tutorials/practice",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "Papa Kofi Boahen",
   "license": "ISC",
@@ -14,5 +14,8 @@
     "hjs": "^0.0.6",
     "hogan-middleware": "^0.2.2",
     "mustache": "^4.2.0"
+  },
+  "engines": {
+    "node": "20.10.0"
   }
 }
