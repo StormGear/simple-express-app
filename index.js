@@ -2,6 +2,24 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const hoganMiddleware = require('hogan-middleware');
+const { Client } = require('pg');
+
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
+client.connect();
+
+client.query('SELECT * FROM public.users;', (err, res) => {
+  if (err) throw err;
+  for (let row of res.rows) {
+    console.log(JSON.stringify(row));
+  }
+  client.end();
+});
 
 app.set('views', path.join(__dirname, 'views')); // tell express which directory your views are in
 app.set('view engine', 'mustache');     // name your templates
@@ -96,5 +114,5 @@ app.get('/getpost/:id', (req, res) => {
 
 
 app.listen(process.env.PORT || 5000, () => {
-    console.log('Server is running on port 3000');
+    console.log(`Server is running on port ${process.env.PORT}` );
 });
