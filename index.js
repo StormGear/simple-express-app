@@ -4,6 +4,8 @@ const path = require('path');
 const hoganMiddleware = require('hogan-middleware');
 const { Client } = require('pg');
 
+console.log(process.env.DATABASE_URL);
+
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: {
@@ -113,6 +115,6 @@ app.get('/getpost/:id', (req, res) => {
 })
 
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log(`Server is running on port ${process.env.PORT}` );
 });
