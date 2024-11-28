@@ -15,7 +15,9 @@
     "hjs": "^0.0.6",
     "hogan-middleware": "^0.2.2",
     "mustache": "^4.2.0",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "engines": {
     "node": "20.10.0",
