@@ -10,8 +10,5 @@ router.post('/user', (req, res) => {
     });
 })
 
-router.get('/user/:id', (req, res) => {
-    res.send(`user with id ${req.params.id}`)
-})
 
 module.exports = router;

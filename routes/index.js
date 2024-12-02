@@ -39,6 +39,9 @@ const getUserById = (req, res) => {
 
 const createUser = (req, res) => {
   const {  name, email } = req.body;
+  if (!name || !email) {
+    return res.status(400).json({ error: 'Name and email are required' });
+  }
   client.query('INSERT INTO public.users(name, email) VALUES($1, $2) RETURNING *;', [name, email],  (err, results) => {
     try {
       if (err) throw err;
@@ -67,7 +70,7 @@ const updateUser = (req, res) => {
 
 
 const deleteUser = (req, res) => {
-  const id = req.params.id;
+  const id = parseInt(req.params.id);
   client.query('DELETE FROM public.users WHERE id = $1;', [id],  (err, results) => {
     try {
       if (err) throw err;

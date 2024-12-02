@@ -11,6 +11,10 @@ const options = {
     info: {
       title: 'Simple Express Application',
       version: '1.0.0',
+      contact: {
+        name: 'By Papa Kofi',
+        url: 'papakofi.tech',
+      },
     },
     servers: [
       {
@@ -31,8 +35,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 // set up the middleware
 app.set('views', path.join(__dirname, 'views')); // tell express which directory your views are in
-app.set('view engine', 'mustache');     // name your templates
-// app.set('view engine', 'ejs');     // name your templates
+// app.set('view engine', 'mustache');     // name your templates
+app.set('view engine', 'ejs');     // name your templates
 app.engine('mustache', hoganMiddleware.__express); // register the engine
 app.use(express.static(path.join(__dirname, 'public'))); // tell express where to find static files
 app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded bodies
@@ -45,31 +49,161 @@ app.use('/', routes.router);
 app.use('/register', register);
 
 /**
- * @openapi
+ * @swagger
  * /:
  *   get:
  *     description: This is the base url/route
+ *     summary: Returns a welcome page
  *     responses:
  *       200:
  *         description: Returns a welcome page.
  */
 app.get('/', (req, res) => {
-  res.send('A simple express CRUD application hosted on Heroku with a PostgreSQL database \n Author: Papa Kofi Boahen');
+  res.render('welcome');
 });
 
-// Get all users
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     description: Retrieve a list of all users
+ *     summary: Get all users
+ *     responses:
+ *       200:
+ *         description: A list of users.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     example: 1
+ *                   name:
+ *                     type: string
+ *                     example: John Doe
+ *                   email:
+ *                     type: string
+ *                     example: johndoe@example.com
+ */
 app.get('/users', routes.getAllUsers);
 
-// Get a user by id
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     description: Retrieve a user by the user ID
+ *     summary: Get a user by the user ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: A user object.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   example: 1
+ *                 name:
+ *                   type: string
+ *                   example: John Doe
+ *                 email:
+ *                   type: string
+ *                   example: johndoe@example.com
+ */
 app.get('/users/:id', routes.getUserById);
 
-// Create a user
+/**
+ * @swagger
+ * /users/add-user:
+ *   post:
+ *     description: Create a new user
+ *     summary: Add a new user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: John Doe
+ *               email:
+ *                 type: string
+ *                 example: johndoe@example.com
+ *     responses:
+ *       201:
+ *         description: User created successfully.
+ *       400:
+ *         description: Name and email are required
+ *       500:
+ *          description: Internal server error
+ */
 app.post('/users/add-user', routes.createUser);
 
-// Update a user
+/**
+ * @swagger
+ * /users/update-user/{id}:
+ *   put:
+ *     description: Update an existing user
+ *     summary: Update a user
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The user ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: John Doe
+ *               email:
+ *                 type: string
+ *                 example: johndoe@example.com
+ *     responses:
+ *       200:
+ *         description: User updated successfully.
+ *       500:
+ *          description: Internal Server Error
+ */
 app.put('/users/update-user/:id', routes.updateUser);
 
-// Delete a user
+/**
+ * @swagger
+ * /users/delete-user/{id}:
+ *   delete:
+ *     description: Delete a user by ID
+ *     summary: Delete a user
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: The user ID
+ *     responses:
+ *       200:
+ *         description: User deleted successfully.
+ */
 app.delete('/users/delete-user/:id', routes.deleteUser);
 
 
@@ -80,3 +214,10 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}` );
 });
+
+
+
+
+
+
+
