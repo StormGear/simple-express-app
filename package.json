@@ -4,7 +4,8 @@
   "description": "Node.js/express js tutorials/practice",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "vercel-build": "npm install"
   },
   "author": "Papa Kofi Boahen",
   "license": "ISC",
